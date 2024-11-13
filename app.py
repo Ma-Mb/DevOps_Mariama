@@ -7,10 +7,10 @@ app = Flask(__name__)
 # Connexion à la base de données PostgreSQL avec les variables d'environnement
 def get_db_connection():
     conn = psycopg2.connect(
-        host=os.environ['DATABASE_HOST'],
-        database=os.environ['DATABASE_NAME'],
-        user=os.environ['DATABASE_USER'],
-        password=os.environ['DATABASE_PASSWORD']
+        host=os.getenv('DATABASE_HOST', 'localhost'),
+        database=os.getenv('DATABASE_NAME', 'mydatabase'),
+        user=os.getenv('DATABASE_USER', 'maria'),
+        password=os.getenv('DATABASE_PASSWORD', 'Postgres')
     )
     return conn
 
@@ -27,6 +27,16 @@ def get_data():
     cursor.close()
     conn.close()
     return jsonify(data)
+
+# Endpoint pour la readiness probe
+@app.route('/health/ready', methods=['GET'])
+def readiness():
+    return jsonify({"status": "ready"}), 200
+
+# Endpoint pour la liveness probe
+@app.route('/health/live', methods=['GET'])
+def liveness():
+    return jsonify({"status": "alive"}), 200
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)

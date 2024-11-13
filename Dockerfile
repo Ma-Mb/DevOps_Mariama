@@ -1,18 +1,18 @@
-# Utiliser une image de base Python
-FROM python:3.9
+# Utiliser une image Python alpine légère
+FROM python:3.9-alpine
 
-# Définir le répertoire de travail dans le conteneur
+# Définir le répertoire de travail
 WORKDIR /app
 
-# Copier le fichier requirements.txt et installer les dépendances
-COPY requirements.txt requirements.txt
+# Installer les dépendances système et Python
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copier le reste du code de l'application
+# Copier le code source
 COPY . .
 
-# Exposer le port sur lequel l'application va tourner
+# Exposer le port de l'application
 EXPOSE 5000
 
-# Commande pour lancer l'application
+# Lancer l'application
 CMD ["python", "app.py"]
