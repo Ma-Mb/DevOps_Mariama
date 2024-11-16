@@ -33,3 +33,34 @@ kubectl apply -f k8s/
 # Accédez à l’application via NodePort :
 
 minikube service app-service --url
+
+
+# Vérifiez si les pods s'exécutent avec la commande :
+
+kubectl get pods
+# Pour afficher plus de détails sur un pod spécifique ou connaître les raisons de son état actuel, utilisez :
+
+kubectl describe pod <nom-du-pod>
+
+# Remplacez <nom-du-pod> par le nom du pod que vous souhaitez examiner.
+
+Cette commande est utile pour déboguer les problèmes liés aux pods.
+
+## Accéder à l'application
+# Affichez tous les services avec la commande suivante :
+
+kubectl get services
+
+# Lorsqu'un service Kubernetes est configuré avec NodePort, vous pouvez y accéder facilement en exécutant :
+
+minikube service <nom-du-service> --url
+# Remplacez <nom-du-service> par le nom du service que vous souhaitez accéder. Cette commande génère une URL temporaire que # vous pouvez utiliser dans votre navigateur pour tester ou interagir avec le service.
+
+# Vous pouvez également établir une connexion entre votre machine locale et un pod pour tester l'API. Utilisez la commande # suivante :
+
+kubectl port-forward <nom-du-pod> 5000:5000
+
+# Remplacez <nom-du-pod> par le nom du pod auquel vous souhaitez accéder.
+# Remarque : Le port 5000 est celui sur lequel l'API est exposée
+
+
